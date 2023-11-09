@@ -447,4 +447,258 @@ Defines a product available for purchase, such as a meal, an add-on, or a plan.
 - `analysis`: (`JSON`) Nutritional analysis for the product.
 - `category`: (`Int`) The product category identifier.
 - `clusterAvailable`: (`Boolean`) Indicates if the product is available in a cluster.
-- `createdAt`: (`ISO8601DateTime!`) The
+- `createdAt`: (`ISO8601DateTime!`) The Creation timestamp (Required).
+- `description`: (`String`) The description of the product.
+- `displayOrder`: (`Int`) The order in which the product should be displayed.
+- `emergencyOutOfStock`: (`Boolean`) Flag for emergency stock status.
+- `id`: (`ID!`) Unique identifier (Required).
+- `ingredients`: (`String`) The ingredients used in the product.
+- `lineItemName`: (`String`) The name used for order line items.
+- `metadata`: (`JSON`) Metadata associated with the product in JSON format.
+- `name`: (`String`) The product's display name.
+- `outOfStock`: (`Boolean`) Indicates if the product is out of stock.
+- `outOfStockMessage`: (`String`) Message displayed when the product is out of stock.
+- `pageUrl`: (`String`) The URL for the product's page.
+- `price`: (`Float`) The price of the product.
+- `priceCategory`: (`String`) The price category, such as premium or discount.
+- `productCategory`: (`String`) The product category, such as meal or supplement.
+- `productType`: (`String`) The type of product, such as a meal or add-on.
+- `recipeId`: (`Int`) The ID of the related recipe, if applicable.
+- `shopifyId`: (`String`) An identifier used by Shopify.
+- `shortName`: (`String`) A shorter name for the product.
+- `sku`: (`String`) Stock keeping unit identifying the product.
+- `slug`: (`String`) A slug for SEO-friendly URLs.
+- `surchargeAmount`: (`Float!`) Any additional charge for the product (Required).
+- `updatedAt`: (`ISO8601DateTime!`) Timestamp of the last update (Required).
+- `weightInOunces`: (`Float`) The weight of the product in ounces.
+
+### `PetPlateProductConnection`
+
+A connection type for listing products with pagination support.
+
+#### Fields
+
+- `edges`: List of edges housing `PetPlateProductEdge` elements.
+- `nodes`: List of `PetPlateProduct` nodes.
+- `pageInfo`: Pagination information using `PPPageInfo`.
+
+### `RouteSchedule`
+
+Defines a schedule for route deliveries including carrier information and dates.
+
+#### Fields
+
+- `carrier`: (`String`) The name of the delivery carrier.
+- `carrierCode`: (`String`) A code identifying the delivery carrier.
+- `createdAt`: (`ISO8601DateTime!`) When the schedule was created (Required).
+- `deliveryDays`: (`Int`) The number of days required for delivery.
+- `id`: (`ID!`) Unique identifier (Required).
+- `includeDryIce`: (`Boolean!`) Whether to include dry ice with deliveries (Required).
+- `routeCode`: (`String!`) A code that identifies the route (Required).
+- `scheduleData`: (`JSON`) JSON object with detailed schedule data.
+- `scheduleStartDate`: (`ISO8601Date!`) The start date for the schedule (Required).
+- `serviced`: (`Boolean`) Whether the route is currently being serviced.
+- `shippingStartDate`: (`ISO8601Date!`) The start date for shipping (Required).
+- `transitRegion`: (`String`) The name of the transit region.
+- `transitRegionCode`: (`String`) The transit region code.
+- `updatedAt`: (`ISO8601DateTime!`) Timestamp of the last update (Required).
+- `warehouseCode`: (`String`) The code of the warehouse from which shipments are sent.
+- `warehouseName`: (`String`) The name of the warehouse.
+- `zipCode`: (`String!`) The zip code served by the route (Required).
+
+### `RouteScheduleConnection`
+
+A connection type for listing route schedules with pagination support.
+
+#### Fields
+
+- `edges`: List of edges housing `RouteScheduleEdge` elements.
+- `nodes`: List of `RouteSchedule` nodes.
+- `pageInfo`: Pagination information using `PPPageInfo`.
+
+### `SizeClass`
+
+Defines size classifications that may relate to pet breeds.
+
+#### Fields
+
+- `ageOfMaturity`: (`Int`) The age at which the size class typically reaches maturity.
+- `ageOfSeniority`: (`Int`) The age at which the size class typically reaches seniority.
+- `lifeExpectancy`: (`Int`) The typical life expectancy for the size class.
+- `maxWeight`: (`Int`) The maximum weight associated with the size class.
+- `name`: (`String`) The name of the size class.
+
+### `SizeClassConnection`
+
+A connection type for listing size classes with pagination support.
+
+#### Fields
+
+- `edges`: List of edges housing `SizeClassEdge` elements.
+- `nodes`: List of `SizeClass` nodes.
+- `pageInfo`: Pagination information using `PPPageInfo`.
+
+### `Term`
+
+Defines terms or conditions that may apply to product sales or usage.
+
+#### Fields
+
+- `active`: (`Boolean!`) Indicates if the term is active (Required).
+- `additionalCopy`: (`String`) Additional copy text associated with the term.
+- `createdAt`: (`ISO8601DateTime!`) When the term was created (Required).
+- `description`: (`String`) A description of the term.
+- `displayOrder`: (`Int`) The order in which the term should appear in lists.
+- `id`: (`ID!`) Unique identifier (Required).
+- `name`: (`String`) The name of the term.
+- `systemOnly`: (`Boolean`) A flag indicating if the term is for system use only.
+- `type`: (`String`) The type or category of the term.
+- `updatedAt`: (`ISO8601DateTime!`) Timestamp of the last update (Required).
+
+### `TermConnection`
+
+A connection type for listing terms with pagination support.
+
+#### Fields
+
+- `edges`: List of edges housing `TermEdge` elements.
+- `nodes`: List of `Term` nodes.
+- `pageInfo`: Pagination information using `PPPageInfo`.
+
+### `User`
+
+Represents a user system profile with login credentials and additional information such as registration status and associated addresses.
+
+#### Fields
+
+- `acceptsMarketing`: (`Boolean`) Indicates if the user has agreed to receive marketing communications.
+- `address`: (`JSON`) The user's primary address in JSON format.
+- `addresses`: (`JSON`) A collection of the user's addresses in JSON format.
+- `allowPasswordChange`: (`Boolean`) If true, the user is allowed to change their password.
+- `confirmationSentAt`: (`ISO8601DateTime`) The timestamp when the confirmation was sent.
+- `confirmationToken`: (`String`) The token used for email confirmation.
+- `confirmedAt`: (`ISO8601DateTime`) The timestamp when the user's email was confirmed.
+- `createdAt`: (`ISO8601DateTime!`) User creation timestamp (Required).
+- `email`: (`String`) The user's email address.
+- `encryptedPassword`: (`String!`) The encrypted password for the user (Required).
+- `id`: (`ID!`) Unique identifier (Required).
+- `image`: (`String`) An image or avatar URL for the user.
+- `name`: (`String`) The full name of the user.
+- `nickname`: (`String`) The user's nickname.
+- `password`: (`String!`) The user's raw password (Required).
+- `phoneNumber`: (`String`) The user's phone number.
+- `provider`: (`String`) The authentication provider for the user.
+- `rememberCreatedAt`: (`ISO8601DateTime`) The timestamp for when the user's session was created.
+- `resetPasswordSentAt`: (`ISO8601DateTime`) The timestamp when the password reset was sent.
+- `resetPasswordToken`: (`String`) The token used for password reset.
+- `shopifyId`: (`String`) An identifier used by Shopify.
+- `tokens`: (`JSON`) A JSON object housing tokens for user authentication.
+- `uid`: (`String`) Unique identifier used for user authentication.
+- `unconfirmedEmail`: (`String`) The user's unconfirmed email, if applicable.
+- `updatedAt`: (`ISO8601DateTime!`) Timestamp of the last update (Required).
+
+### `UserConnection`
+
+A connection type for listing users with pagination support.
+
+#### Fields
+
+- `edges`: List of edges housing `UserEdge` elements.
+- `nodes`: List of `User` nodes.
+- `pageInfo`: Pagination information using `PPPageInfo`.
+
+### `WellnessGoal`
+
+Represents a wellness goal that can be assigned to a pet.
+
+#### Fields
+
+- `active`: (`Boolean!`) Whether the goal is active (Required).
+- `id`: (`ID!`) Unique identifier (Required).
+- `name`: (`String!`) The name of the wellness goal (Required).
+- `slug`: (`String!`) A URL-friendly string for the wellness goal (Required).
+
+### `WellnessGoalConnection`
+
+A connection type for listing wellness goals with pagination support.
+
+#### Fields
+
+- `edges`: List of edges housing `WellnessGoalEdge` elements.
+- `nodes`: List of `WellnessGoal` nodes.
+- `pageInfo`: Pagination information using `PPPageInfo`.
+
+### `ZipCode`
+
+Represents a zipcode with related tax information and geographic details.
+
+#### Fields
+
+- `chargeSalesTax`: (`Boolean!`) Whether to charge sales tax for this zipcode (Required).
+- `city`: (`String`) The related city name.
+- `createdAt`: (`ISO8601DateTime!`) Creation timestamp (Required).
+- `id`: (`ID!`) Unique identifier (Required).
+- `salesTaxRate`: (`Float!`) The sales tax rate for the zipcode (Required).
+- `state`: (`String`) The related state.
+- `updatedAt`: (`ISO8601DateTime!`) Timestamp of the last update (Required).
+- `zipCode`: (`String`) The zipcode value.
+
+### `ZipCodeConnection`
+
+A connection type for listing zipcodes with pagination support.
+
+#### Fields
+
+- `edges`: List of edges housing `ZipCodeEdge` elements.
+- `nodes`: List of `ZipCode` nodes.
+- `pageInfo`: Pagination information using `PPPageInfo`.
+
+## Inputs
+
+Input types are used to pass complex structures into GraphQL operations. Each input type is designed to group fields necessary for a particular operation like creating, updating, or deleting data.
+
+(Due to the extensive number of input types, they will not be documented in full detail here due to space constraints. Each `*Input` type typically mirrors the field structure of the associated object type but will include relevant fields for the specific mutation operation, including clientMutationId and other input-related fields).
+
+### Example Input Types
+
+- `BoxVariantCreateInput`: Used for creating a new `BoxVariant`.
+- `BreedUpdateInput`: Used for updating a `Breed`.
+- `MealDeleteInput`: Used for deleting a `Meal`.
+- `UserCreateInput`: Used for creating a new `User`.
+- And many more.
+
+## Mutations
+
+Mutations are operations that create changes in the data stored on the server. They are GraphQL's way to perform CUD (Create, Update, Delete) operations.
+
+### Example Mutations
+
+- `boxVariantCreate`: Creates a new `BoxVariant`.
+- `ingredientDelete`: Deletes an `Ingredient` by ID.
+- `petUpdate`: Updates a `Pet` by ID.
+- `userRegister`: Registers a new `User`.
+
+## Queries
+
+Queries are operations that retrieve data from the server in a read-only fashion.
+
+### Example Queries
+
+- `meal`: Find a `Meal` by ID.
+- `pets`: List pets with optional filters and pagination support.
+- `user`: Find a `User` by ID or email.
+- `zipCodes`: List zipcodes with optional filters and pagination support.
+
+## Pagination
+
+Many connection types support pagination using the `PPPageInfo` type, which includes:
+
+- `currentPage`: The current page number.
+- `endCursor`: The cursor to continue pagination forwards.
+- `hasNextPage`: Indicates if there are more items when paginating forwards.
+- `hasPreviousPage`: Indicates if there are more items when paginating backwards.
+- `pageSize`: The number of results requested per page.
+- `startCursor`: The cursor to continue pagination backwards.
+- `totalPages`: The total number of pages available.
+
+This schema and accompanying documentation should help new developers navigate and utilize our GraphQL API effectively.
