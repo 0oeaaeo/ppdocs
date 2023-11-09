@@ -1,3 +1,257 @@
+# Documentation Navigation Start Page
+
+Welcome to the comprehensive documentation of our retail operations management system. This documentation is designed to serve as a navigational aid, providing direct access to detailed information about classes, modules, and functionalities of our system.
+
+## Table of Contents
+
+- [Overview](#overview)
+  - [Models](#models)
+  - [Modules](#modules)
+  - [Scopes](#scopes)
+  - [Validations](#validations)
+  - [Miscellaneous Details](#misc)
+  - [Additional Notes](#additional-notes)
+
+- [Fulfillments & Subscriptions Module Documentation](#fulfillments--subscriptions-module-documentation)
+  - [Modules and Classes Summary](#modules-and-classes-summary)
+  - [Detailed Documentation](#detailed-documentation)
+  - [Usage](#usage)
+
+- [Subscriptions Module Documentation](#subscriptions-module-documentation)
+  - [Classes and Modules](#classes-and-modules)
+  - [Usage](#usage-1)
+
+- [PetPlate Billing and Webhook Handling Documentation](#petplate-billing-and-webhook-handling-documentation)
+  - [Billing](#billing)
+    - [Payment Gateway](#payment-gateway)
+    - [Jobs](#jobs)
+  - [Webhooks](#webhooks)
+  - [ActiveJob Queue](#activejob-queue)
+  - [Note Attributes Parsing](#note-attributes-parsing)
+  - [Error Handling](#error-handling)
+  - [Development and Testing](#development-and-testing)
+  - [Integration Points](#integration-points)
+  - [Monitoring and Logging](#monitoring-and-logging)
+  - [Conclusion](#conclusion)
+
+- [Application Code Documentation](#application-code-documentation)
+  - [Table of Contents](#table-of-contents-application-code)
+  - [Jobs](#jobs-application-code)
+    - [ActiveJob](#activejob-application-code)
+    - [WebhookHandler](#webhookhandler-application-code)
+  - [Controllers](#controllers-application-code)
+  - [Model Helpers](#model-helpers-application-code)
+  - [Service Pattern](#service-pattern-application-code)
+  - [Web Sockets](#web-sockets-application-code)
+
+---
+
+## Overview
+
+### Models
+
+- [`PaymentBatch`](#paymentbatch)
+- [`ReportJob`](#reportjob)
+- [`Subscription`](#subscription)
+- [`Pet`](#pet)
+- [`PaymentMethod`](#paymentmethod)
+- [`BoxVariant` & `MealVariant`](#boxvariant--mealvariant)
+- [`User`](#user)
+
+### Modules
+
+- [`Importable`](#importable)
+- [`IdentityMap`](#identitymap)
+- [`IsSku`](#issku)
+- [`ActAsProductVariant`](#actasproductvariant)
+- [`HasLogEvents`](#haslogevents)
+- [`ActAsProduct`](#actasproduct)
+- [`Facade`](#facade)
+- [`AsJsonWithAliases`](#asjsonwithaliases)
+
+### Scopes
+
+- [Predefined Scopes](#scopes-1)
+
+### Validations
+
+- [Model Validation Rules](#validations-1)
+
+### Miscellaneous Details
+
+- [Design Patterns and Practices](#misc-1)
+
+### Additional Notes
+
+- [Documentation Clarifications](#additional-notes-1)
+
+---
+
+## Fulfillments & Subscriptions Module Documentation
+
+### Modules and Classes Summary
+
+- [Fulfillments](#fulfillments-module)
+- [Types](#types-module)
+- [Nift](#nift-module)
+- [Customers](#customers-module)
+- [Pets](#pets-module)
+- [CommandsV1](#commandsv1-module)
+- [Products](#products-module)
+- [Invoices](#invoices-module)
+- [Vercel](#vercel-module)
+- [Utility Functions](#various-utility-functions)
+- [HerokuReviewApp](#herokureviewapp-1)
+
+### Detailed Documentation
+
+- [Fulfillments Module](#fulfillments-module-1)
+- [Types Module](#types-module-1)
+- [Nift Module](#nift-module-1)
+- [Customers Module](#customers-module-1)
+- [Pets Module](#pets-module-1)
+- [CommandsV1 Module](#commandsv1-module-1)
+- [Products Module](#products-module-1)
+- [Invoices Module](#invoices-module-1)
+- [Vercel Module](#vercel-module-1)
+- [Utility Functions](#various-utility-functions-1)
+
+### Usage
+
+- [Integrating Functions](#usage-1)
+
+---
+
+## Subscriptions Module Documentation
+
+### Classes and Modules
+
+- [Subscriptions::Listener](#subscriptionslistener)
+- [Subscriptions::Statistics](#subscriptionsstatistics)
+- [Subscriptions::ChangeMealsStockImporter](#subscriptionschangemealsstockimporter)
+- [Subscriptions::LineItem](#subscriptionslineitem)
+- [Subscriptions::LineItemSet](#subscriptionslineitemset)
+- [Subscriptions::Commands::ChangePhoto](#subscriptionscommandschangephoto)
+- [Subscriptions::Commands::RemovePhoto](#subscriptionscommandsremovephoto)
+- [Subscriptions::Commands::IgnoreNewPlanRecommendations](#subscriptionscommandsignorenewplanrecommendations)
+- [Subscriptions::Commands::ChangePlan](#subscriptionscommandschangeplan)
+- [Subscriptions::Commands::HideSubscription](#subscriptionscommandshidesubscription)
+- [Subscriptions::Jobs::UpdateDailySubscriptionStatsJob](#subscriptionsjobsupdatedailysubscriptionstatsjob)
+- [Subscriptions::LineItemMapper](#subscriptionslineitemmapper)
+- [Subscriptions::LegacyMapper](#subscriptionslegacymapper)
+- [Subscriptions::Models::LineItemsAttribute](#subscriptionsmodelslineitemsattribute)
+- [Subscriptions::AutomaticRescheduler](#subscriptionsautomaticrescheduler)
+
+### Usage
+
+- [Subscriptions Integration](#usage-2)
+
+---
+
+## PetPlate Billing and Webhook Handling Documentation
+
+### Billing
+
+#### Payment Gateway
+
+- [Introduction](#payment-gateway-application-billing)
+- [Payment Gateway Providers](#payment-gateway-providers)
+  - [Charge](#charge)
+  - [Refund](#refund)
+  - [Payment Method](#payment-method)
+- [Operators](#operators-application-billing)
+- [Errors](#errors-application-billing)
+
+#### Jobs
+
+- [PaymentBatchJob](#paymentbatchjob)
+- [RefundInvoiceJob](#refundinvoicejob)
+- [SyncStripeCustomerJob](#syncstripecustomerjob)
+- [StripeWebhookJob](#stripewebhookjob)
+
+### Webhooks
+
+- [Shopify Webhook Handlers](#shopify-webhook-handlers)
+
+### ActiveJob Queue
+
+- [Sidekiq Configuration](#sidekiq-configuration-application-billing)
+- [Retry Mechanisms](#retry-mechanisms-application-billing)
+- [Scheduling](#scheduling-application-billing)
+
+### Note Attributes Parsing
+
+- [Custom Note Handling](#note-attributes-parsing-application-billing)
+
+### Error Handling
+
+- [Exceptions & Logs](#error-handling-application-billing)
+
+### Development and Testing
+
+- [Mocking and Development Settings](#development-and-testing-application-billing)
+
+### Integration Points
+
+- [Integrated Services](#integration-points-application-billing)
+
+### Monitoring and Logging
+
+- [System Monitoring](#monitoring-and-logging-application-billing)
+
+### Conclusion
+
+- [Billing & Webhook Summary](#conclusion-application-billing)
+
+---
+
+## Application Code Documentation
+
+### Table of Contents (Application Code)
+
+- [Jobs (Application Code)](#jobs-application-code-1)
+- [Controllers (Application Code)](#controllers-application-code-1)
+- [Model Helpers (Application Code)](#model-helpers-application-code-1)
+- [Service Pattern (Application Code)](#service-pattern-application-code-1)
+- [Web Sockets (Application Code)](#web-sockets-application-code-1)
+
+### Jobs (Application Code)
+
+#### ActiveJob (Application Code)
+
+- [Jobs and Background Processing](#activejob-application-code-2)
+
+#### WebhookHandler (Application Code)
+
+- [Webhook Jobs Listing](#webhookhandler-application-code-2)
+
+### Controllers (Application Code)
+
+- [ApplicationController](#applicationcontroller-application-code)
+- [WebhookController](#webhookcontroller-application-code)
+- [GraphqlController](#graphqlcontroller-application-code)
+- [AuthenticatedController](#authenticatedcontroller-application-code)
+- [CartController](#cartcontroller-application-code)
+- [ProductsController](#productscontroller-application-code)
+- [SubscriptionContractsController](#subscriptioncontractscontroller-application-code)
+- [HomeController](#homecontroller-application-code)
+- [BaseController (API)](#basecontroller-api-application-code)
+- [SellingPlanController](#sellingplancontroller-application-code)
+
+### Model Helpers (Application Code)
+
+- [List of Helpers Available](#model-helpers-application-code-2)
+
+### Service Pattern (Application Code)
+
+- [Service Objects Design](#service-pattern-application-code-2)
+
+### Web Sockets (Application Code)
+
+- [WebSocket Communication](#web-sockets-application-code-2)
+
+This Navigation Start Page is intended to serve as an easy-access guide. Click on the links above to jump to a specific section in the documentation.
+
 # Documentation
 
 ## Overview
