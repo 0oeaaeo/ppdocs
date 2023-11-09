@@ -404,3 +404,121 @@ Performs daily updates of subscription statistics.
 Each class and module offers functionalities that intertwine to form a cohesive subscription management system. This system performs tasks such as updating meal plans depending on stock availability, handling subscription photo assets, reacting to subscription changes, and maintaining subscription health through statistics and automatic rescheduling.
 
 When using this module, one should be aware of the specific roles and responsibilities of each class and method to effectively integrate them into the larger application context.
+
+# PetPlate Billing and Webhook Handling Documentation
+
+This documentation aims to provide a comprehensive guide on the implementation and functionalities of the PetPlate billing system and webhook handling. The codebase is organized into multiple modules that cater to different aspects of the billing processes and webhook events.
+
+## Billing
+
+### Payment Gateway
+
+The `PaymentGateway` module is responsible for abstracting the payment gateway logic. It allows the system to interact with various payment service providers like Stripe, Shopify Payments, Merchant Ware and so on.
+
+#### Payment Gateway Providers
+
+- **Stripe**: Integration with Stripe's payment services.
+- **ShopifyPayment**: Handles Shopify's payment functionalities.
+- **MerchantWare**: Integration with MerchantWare's processing services.
+- **PetPay**: A custom, mocked-up payment provider used for testing.
+
+The gateways provide unified interfaces to create charges, create refunds, and manage payment methods.
+
+##### Charge
+
+Handles the creation of a transaction charge. Must implement `capture` method for actual charge processing.
+
+##### Refund
+
+Handles refund processing for a transaction. Must implement a method to actually process refund with the corresponding payment gateway.
+
+##### Payment Method
+
+Handles the customer payment methods details, such as creating and updating payment information.
+
+#### Operators
+
+Operators are responsible for handling specific actions such as charging the customer's card (`ChargeOperator`), creating payment intents (`PaymentIntentOperator`), and general operations (`Operator`).
+
+#### Errors
+
+Custom error classes for handling gateway specific errors such as `CardError` and `RiskyCardError`.
+
+### Jobs
+
+`Billing::Jobs` namespace contains several background jobs to handle asynchronous tasks in the billing process.
+
+#### PaymentBatchJob
+
+This job is responsible for creating payment batches which help process multiple orders related to upcoming shipments. It handles the orchestration of order creation, charging, updating subscriptions, and more.
+
+#### RefundInvoiceJob
+
+Handles the creation of invoices associated with refunds asynchronously.
+
+#### SyncStripeCustomerJob
+
+This job synchronizes customer information with Stripe's records.
+
+#### StripeWebhookJob
+
+Processes Stripe events received through webhooks.
+
+## Webhooks
+
+The `Webhooks` module manages the incoming webhook events from different third-party services like Shopify.
+
+### Shopify Webhook Handlers
+
+Each Shopify event (e.g., `shop/update`, `app/uninstalled`, `orders/create`, `subscription_contracts/create`, etc.) is handled by a corresponding job. The jobs will process the event data and perform necessary actions such as creating records, updating data, or complex operations like syncing customers and orders.
+
+#### OrdersCreateJob
+
+Processes the `orders/create` event from Shopify. It handles saving order information and associating the order with the correct subscription and customer entities.
+
+## ActiveJob Queue
+
+The system utilizes ActiveJob for asynchronous job execution. Each webhook event and billing job is processed in the background with the help of ActiveJob.
+
+#### Sidekiq Configuration
+
+The codebase is configured with Sidekiq for queue backend. Jobs are enqueued with unique options and other settings to ensure efficient processing. Sidekiq batches are also used to group related jobs.
+
+#### Retry Mechanisms
+
+For robustness, the jobs have retry mechanisms in place, ensuring that transient issues do not lead to failures in processing events and transactions.
+
+#### Scheduling
+
+Some jobs are scheduled to run at regular intervals, such as `RegenerateInstagramToken` and `SyncAllStripeCustomersJob`. This ensures up-to-date records and functioning integrations.
+
+## Note Attributes Parsing
+
+Webhooks often include custom note attributes that need to be parsed to associate event data with internal entity IDs, such as customer or order IDs.
+
+## Error Handling
+
+The jobs and commands include error handling to ensure exceptions are logged, and in some cases, retried with appropriate intervals.
+
+## Development and Testing
+
+For local development and testing, certain jobs and operations can be faked or mocked, such as in `PetPay` or based on environment variables that indicate the non-production environment. This is essential for safe development without affecting real customers or transactions.
+
+## Integration Points
+
+The billing system integrates with several services:
+
+- Shopify: For cart, order, subscription, and customer management.
+- Stripe: For managing charges, payment methods, and handling payment processing.
+- MerchantWare: As an additional payment processing solution.
+- Instagram: For refreshing media tokens periodically.
+
+Each of these integrations has its own set of handlers, jobs, and processes to maintain data synchronization and process business logic.
+
+## Monitoring and Logging
+
+The jobs are set to log significant events and errors to ensure traceability and tracking of the billing system's performance and issues.
+
+## Conclusion
+
+The PetPlate billing system and webhook handling involves a complex interplay of jobs, commands, and services to deal with payment processing, handling third-party events, and ensuring data consistency. This documentation gives an overview of the system's architecture and functionality, ensuring the maintainability and extensibility of the system.
