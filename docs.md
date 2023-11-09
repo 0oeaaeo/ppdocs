@@ -522,3 +522,136 @@ The jobs are set to log significant events and errors to ensure traceability and
 ## Conclusion
 
 The PetPlate billing system and webhook handling involves a complex interplay of jobs, commands, and services to deal with payment processing, handling third-party events, and ensuring data consistency. This documentation gives an overview of the system's architecture and functionality, ensuring the maintainability and extensibility of the system.
+
+# Application Code Documentation
+
+This documentation provides a comprehensive guide for the provided codebase, covering a range of classes and modules that include ActiveJob subclasses, webhook handling, controllers, helpers, services, and Cable configurations. This is aimed at facilitating a smooth handoff to a new team.
+
+## Table of Contents
+
+- [Jobs](#jobs)
+  - [ActiveJob](#activejob)
+  - [WebhookHandler](#webhookhandler)
+- [Controllers](#controllers)
+  - [ApplicationController](#applicationcontroller)
+  - [WebhookController](#webhookcontroller)
+  - [GraphqlController](#graphqlcontroller)
+  - [AuthenticatedController](#authenticatedcontroller)
+  - [CartController](#cartcontroller)
+  - [ProductsController](#productscontroller)
+  - [SubscriptionContractsController](#subscriptioncontractscontroller)
+  - [HomeController](#homecontroller)
+  - [BaseController (API)](#basecontroller-api)
+  - [SellingPlanController](#sellingplancontroller)
+- [Model Helpers](#model-helpers)
+- [Service Pattern](#service-pattern)
+- [Web Sockets](#web-sockets)
+
+## Jobs
+
+### ActiveJob
+
+ActiveJob is a framework for declaring jobs and making them run on a variety of queuing backends. Below is a list of job classes found in the provided code, each designed to handle specific Shopify Webhook topics.
+
+#### WebhookHandler
+
+Each job class includes a `handle` method for handling a particular Shopify Webhook topic and a `perform` method to process the webhook event.
+
+- `ProductsDeleteJob` - Processes a webhook event for product deletion.
+- `ShopRedactJob` - Executes when a shop deletion is triggered.
+- `ProductsUpdateJob` - For product updates.
+- `OrdersUpdatedJob` - Invoked when an order is updated.
+- `PaymentSchedulesDueJob` - Runs when a payment schedule is due.
+- `CustomerPaymentMethodsRevokeJob` - Executes when a customer's payment method is revoked.
+- `ProductsCreateJob` - Handles product creation events.
+- `ScheduledFulfillmentOrderReadyJob` - Called when a scheduled fulfillment order is ready.
+- `CartsUpdateJob` - Processes cart update events.
+- `SubscriptionBillingAttemptsFailureJob` - Deals with subscription billing attempt failures.
+- `CustomersDataRequestJob` - For handling data request from customers.
+- `CartsCreateJob` - Captures cart creation events.
+- `FulfillmentEventsCreateJob` - Used for fulfillment event creation.
+- `FulfillmentEventsDeleteJob` - For deletion of fulfillment events.
+
+## Controllers
+
+### ApplicationController
+
+`ApplicationController` acts as the base controller, including Wisper publisher for event broadcasting and configuring `protect_from_forgery` with a null session.
+
+### WebhookController
+
+This controller includes methods corresponding to Shopify's webhook topics, each receiving and logging webhook data.
+
+### GraphqlController
+
+Provides an endpoint to execute GraphQL queries with session context handling.
+
+### AuthenticatedController
+
+Ensures only authenticated users can access the controller actions. Inherits from `ApplicationController`.
+
+### CartController
+
+Provides utility methods for rendering success and failure JSON responses.
+
+### ProductsController
+
+Handles product-related actions including syncing and counting products through Shopify's Graphql API.
+
+### SubscriptionContractsController
+
+Responsible for fetching subscription contract data and handling related webhooks.
+
+### HomeController
+
+Serves as the main entry point for the Shopify App, with index action responsible for rendering the UI.
+
+### BaseController (API)
+
+Located under `Api::V1`, acts as the base for all API controllers, providing user context and CSRF cookie setting.
+
+### SellingPlanController
+
+Deals with creating selling plans and adding products or variants to those plans.
+
+## Model Helpers
+
+### ResponseBuilder
+
+Located under `Helpers`, this module provides standard response templates for different HTTP status codes.
+
+### FetchCart
+
+Also in `Helpers`, it fetches or creates a cart based on user or guest token information.
+
+### BannerMessage
+
+Generates banner messages based on coupon conditions.
+
+### RollbarUser
+
+Acts as a value object for Rollbar logging user context.
+
+### CurrentGuestToken
+
+Manages the guest token for both retrieval and storage.
+
+### Impersonator
+
+Detects and handles user impersonation.
+
+### ValidateCart
+
+Validates the cart state against inventory and pricing changes.
+
+### CurrentUser
+
+Retrieves the current user based on request information.
+
+## Service Pattern
+
+`ApplicationService` class defines a template for creating service objects with a common `call` method that can be overridden by subclasses.
+
+## Web Sockets
+
+`ApplicationCable::Connection` and `ApplicationCable::Channel` provide the basic WebSocket connection and channel framework within the Rails application.
